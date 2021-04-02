@@ -1,14 +1,14 @@
 package de.pfannekuchen.killtherng.utils;
 
-import java.lang.reflect.Field;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * This Random forces a Seed for all 'Random' Operations and logs them into a file.
  * @author Pancake
  */
 public final class HijackedRandom extends Random {
+	
+	public static long currentSeed = 0L;
 	
 	/**
 	 * Set the serialVersionUID to be the same as in {@link Random} so that deserialization is compatibile. 
@@ -38,23 +38,57 @@ public final class HijackedRandom extends Random {
 	 * @param seed Given seed for the Random Number Generator (ignored)
 	 */
     private HijackedRandom(boolean nullptr) {
-    	try {
-			Field private_seed_field = this.getClass().getSuperclass().getDeclaredField("seed");
-			private_seed_field.setAccessible(true);
-			private_seed_field.set(this, new AtomicLong(0L)); // TODO: Replace 0L with custom seed.
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
+    	setSeed(currentSeed);
     }
     
-	/**
-	 * Removed the part where the original Code sets the seed of the Random Number Generator
-	 * @author Pancake
-	 */
+	// Go into every public method and set the seed before executing the RNG action
+	
 	@Override
-    synchronized public void setSeed(final long seed) {
-		//this.seed.set(initialScramble(seed)); // Nah I don't fell like changing the seed to be honest.
-        //haveNextNextGaussian = false;
-    }
+	public boolean nextBoolean() {
+		setSeed(currentSeed);
+		return super.nextBoolean();
+	}
+	
+	@Override
+	public double nextDouble() {
+		setSeed(currentSeed);
+		return super.nextDouble();
+	}
+	
+	@Override
+	public int nextInt() {
+		setSeed(currentSeed);
+		return super.nextInt();
+	}
+	
+	@Override
+	public int nextInt(int bound) {
+		setSeed(currentSeed);
+		return super.nextInt(bound);
+	}
+	
+	@Override
+	public float nextFloat() {
+		setSeed(currentSeed);
+		return super.nextFloat();
+	}
+	
+	@Override
+	public void nextBytes(byte[] bytes) {
+		setSeed(currentSeed);
+		super.nextBytes(bytes);
+	}
+	
+	@Override
+	public synchronized double nextGaussian() {
+		setSeed(currentSeed);
+		return super.nextGaussian();
+	}
+	
+	@Override
+	public long nextLong() {
+		setSeed(currentSeed);
+		return super.nextLong();
+	}
 	
 }
