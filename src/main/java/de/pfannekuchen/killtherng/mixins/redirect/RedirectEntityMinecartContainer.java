@@ -12,12 +12,12 @@ import net.minecraft.entity.item.EntityMinecartContainer;
 @Mixin(EntityMinecartContainer.class)
 public class RedirectEntityMinecartContainer {
 
-	@Redirect(method = "addLoot", at = @At(value = "NEW", target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
+	@Redirect(method = "addLoot", at = @At(value = "NEW", ordinal = 0, target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
 	public Random redirectRandom() {
 		return new UnseededWorldRandom();
 	}
 	
-	@Redirect(method = "addLoot", at = @At(value = "NEW", target = "Ljava/util/Random;<init>(J)Ljava/util/Random;"))
+	@Redirect(method = "addLoot", at = @At(value = "NEW", ordinal = 1, target = "Ljava/util/Random;<init>(J)Ljava/util/Random;"))
 	public Random redirectRandom2(long originalSeed) {
 		return new UnseededWorldRandom(originalSeed);
 	}

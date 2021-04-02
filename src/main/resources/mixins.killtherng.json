@@ -15,6 +15,12 @@
     	"redirect.RedirectEntityLivingRandom",
     	"redirect.RedirectTeleportToTeam",
     	"redirect.RedirectTileEntityLockableLoot",
+    	"redirect.RedirectDragonFightManager",
+    	"redirect.RedirectMapGenStronghold",
+    	"redirect.RedirectMapGenStructure",
+    	"redirect.RedirectExplosion",
+    	"redirect.RedirectWorld",
+    	"redirect.RedirectDragonSpawnManager",
     	"MixinUUIDFix"
     ],
     "client": [],

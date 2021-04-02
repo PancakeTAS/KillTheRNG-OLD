@@ -12,12 +12,12 @@ import net.minecraft.tileentity.TileEntityLockableLoot;
 @Mixin(TileEntityLockableLoot.class)
 public class RedirectTileEntityLockableLoot {
 
-	@Redirect(method = "fillWithLoot", at = @At(value = "NEW", target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
+	@Redirect(method = "fillWithLoot", at = @At(value = "NEW", ordinal = 0, target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
 	public Random redirectRandom() {
 		return new UnseededWorldRandom();
 	}
 	
-	@Redirect(method = "fillWithLoot", at = @At(value = "NEW", target = "Ljava/util/Random;<init>(J)Ljava/util/Random;"))
+	@Redirect(method = "fillWithLoot", at = @At(value = "NEW", ordinal = 1, target = "Ljava/util/Random;<init>(J)Ljava/util/Random;"))
 	public Random redirectRandom2(long originalSeed) {
 		return new UnseededWorldRandom(originalSeed);
 	}

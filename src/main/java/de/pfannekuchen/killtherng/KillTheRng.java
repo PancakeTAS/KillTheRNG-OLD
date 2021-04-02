@@ -40,7 +40,7 @@ public class KillTheRng {
 		changeField("net.minecraft.item.Item", "itemRand", new EntityRandom(), false);
 	}
 	
-	private void changeField(String clazz, String name, Random rng, boolean isFinal) {
+	public static void changeField(String clazz, String name, Random rng, boolean isFinal) {
 		try {
 			Field field = Class.forName(clazz).getDeclaredField(name);			
 			field.setAccessible(true);
@@ -49,7 +49,7 @@ public class KillTheRng {
 				modifiersField.setAccessible(true);
 				modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 			}
-			field.set(null, new EntityRandom());
+			field.set(null, rng);
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException
 				| IllegalAccessException e) {
 			e.printStackTrace();
