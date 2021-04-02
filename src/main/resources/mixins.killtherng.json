@@ -21,7 +21,8 @@
     	"redirect.RedirectExplosion",
     	"redirect.RedirectWorld",
     	"redirect.RedirectDragonSpawnManager",
-    	"MixinUUIDFix"
+    	"MixinUUIDFix",
+    	"gui.MixinIngameMenu"
     ],
     "client": [],
     "server": []

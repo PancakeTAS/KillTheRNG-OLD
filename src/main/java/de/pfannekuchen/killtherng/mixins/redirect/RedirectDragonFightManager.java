@@ -11,7 +11,6 @@ import net.minecraft.world.end.DragonFightManager;
 
 @Mixin(DragonFightManager.class)
 public class RedirectDragonFightManager {
-
 	@Redirect(method = "<init>", at = @At(value = "NEW", target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
 	public Random redirectRandom2() {
 		return new SeededWorldRandom();
