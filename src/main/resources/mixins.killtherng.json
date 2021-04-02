@@ -4,7 +4,8 @@
     "mixins": [
     	"redirect.RedirectEntityRandom",
     	"redirect.RedirectEntityLivingRandom",
-    	"redirect.RedirectEntityLivingBaseRandom"
+    	"redirect.RedirectEntityLivingBaseRandom",
+    	"MixinUUIDFix"
     ],
     "client": [],
     "server": []
