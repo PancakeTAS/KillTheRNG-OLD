@@ -6,7 +6,7 @@ import java.util.Random;
  * This Random forces a Seed for all 'Random' Operations and logs them into a file.
  * @author Pancake
  */
-public final class HijackedRandom extends Random {
+public final class UnseededWorldRandom extends Random {
 	
 	public static long currentSeed = 0L;
 	
@@ -20,7 +20,7 @@ public final class HijackedRandom extends Random {
 	 * Replace all constructors to make redirecting easier.
 	 * @author Pancake
 	 */
-	public HijackedRandom() {
+	public UnseededWorldRandom() {
 		this(false);
     }
 	
@@ -28,7 +28,7 @@ public final class HijackedRandom extends Random {
 	 * Replace all constructors to make redirecting easier.
 	 * @author Pancake
 	 */
-    public HijackedRandom(final long seed) {
+    public UnseededWorldRandom(final long seed) {
     	this(false);
     }
 	
@@ -37,7 +37,7 @@ public final class HijackedRandom extends Random {
 	 * @author Pancake
 	 * @param seed Given seed for the Random Number Generator (ignored)
 	 */
-    private HijackedRandom(boolean nullptr) {
+    private UnseededWorldRandom(boolean nullptr) {
     	setSeed(currentSeed);
     }
     

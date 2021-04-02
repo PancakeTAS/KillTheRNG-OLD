@@ -6,15 +6,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import de.pfannekuchen.killtherng.utils.EntityRandom;
-import net.minecraft.entity.Entity;
+import de.pfannekuchen.killtherng.utils.UnseededWorldRandom;
+import net.minecraft.client.gui.spectator.categories.TeleportToTeam;
 
-@Mixin(Entity.class)
-public class RedirectEntityRandom {
+@Mixin(TeleportToTeam.class)
+public class RedirectTeleportToTeam {
 
 	@Redirect(method = "<init>", at = @At(value = "NEW", target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
 	public Random redirectRandom() {
-		return new EntityRandom();
+		return new UnseededWorldRandom();
 	}
 	
 }
