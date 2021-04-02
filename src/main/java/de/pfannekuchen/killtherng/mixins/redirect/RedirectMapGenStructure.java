@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import de.pfannekuchen.killtherng.KillTheRng;
 import de.pfannekuchen.killtherng.utils.SeededWorldRandom;
 import net.minecraft.world.gen.structure.MapGenStructure;
 
@@ -14,7 +15,7 @@ public class RedirectMapGenStructure {
 
 	@Redirect(method = "findNearestStructurePosBySpacing", at = @At(value = "NEW", target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
 	private static Random redirectRandom2() {
-		return new SeededWorldRandom();
+		return KillTheRng.ISDISABLED ? new Random() : new SeededWorldRandom();
 	}
 	
 }

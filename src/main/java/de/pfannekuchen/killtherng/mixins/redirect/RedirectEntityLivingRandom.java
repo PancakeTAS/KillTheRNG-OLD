@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import de.pfannekuchen.killtherng.KillTheRng;
 import de.pfannekuchen.killtherng.utils.EntityRandom;
 import net.minecraft.entity.EntityLiving;
 
@@ -14,7 +15,7 @@ public class RedirectEntityLivingRandom {
 
 	@Redirect(method = "dropLoot", at = @At(value = "NEW", target = "Ljava/util/Random;<init>(J)Ljava/util/Random;"))
 	public Random redirectRandom(long originalSeed) {
-		return new EntityRandom(originalSeed);
+		return KillTheRng.ISDISABLED ? new Random(originalSeed) : new EntityRandom(originalSeed);
 	}
 	
 }

@@ -7,7 +7,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import de.pfannekuchen.killtherng.KillTheRng;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * When an entity gets created it gets a randomly generated UUID, this is bad, because UUID's cannot be the same or the 
@@ -25,7 +27,7 @@ public class MixinUUIDFix {
 	 */
 	@Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;getRandomUUID(Ljava/util/Random;)Ljava/util/UUID;"))
 	public UUID redirectRandom(Random rng) {
-		return UUID.randomUUID();
+		return KillTheRng.ISDISABLED ? MathHelper.getRandomUUID(rng) : UUID.randomUUID();
 	}
 	
 }

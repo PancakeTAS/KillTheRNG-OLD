@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import de.pfannekuchen.killtherng.KillTheRng;
 import de.pfannekuchen.killtherng.utils.UnseededWorldRandom;
 import net.minecraft.command.CommandWeather;
 
@@ -14,7 +15,7 @@ public class RedirectCommandWeather {
 
 	@Redirect(method = "execute", at = @At(value = "NEW", target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
 	public Random redirectRandom() {
-		return new UnseededWorldRandom();
+		return KillTheRng.ISDISABLED ? new Random() : new UnseededWorldRandom();
 	}
 	
 }

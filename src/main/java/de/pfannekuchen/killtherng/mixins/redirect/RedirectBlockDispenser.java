@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import de.pfannekuchen.killtherng.KillTheRng;
 import de.pfannekuchen.killtherng.utils.UnseededWorldRandom;
 import net.minecraft.block.BlockDispenser;
 
@@ -19,7 +20,7 @@ public class RedirectBlockDispenser {
 	
 	@Inject(at = @At("RETURN"), method = "<init>")
 	public void hackRandom(CallbackInfo ci) {
-		rand = new UnseededWorldRandom();
+		if (!KillTheRng.ISDISABLED) rand = new UnseededWorldRandom();
 	}
 	
 }

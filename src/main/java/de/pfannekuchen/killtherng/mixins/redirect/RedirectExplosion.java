@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import de.pfannekuchen.killtherng.KillTheRng;
 import de.pfannekuchen.killtherng.utils.SeededWorldRandom;
 import net.minecraft.world.Explosion;
 
@@ -14,7 +15,7 @@ public class RedirectExplosion {
 
 	@Redirect(method = "<init>", at = @At(value = "NEW", target = "Ljava/util/Random;<init>()Ljava/util/Random;"))
 	public Random redirectRandom() {
-		return new SeededWorldRandom();
+		return KillTheRng.ISDISABLED ? new Random() : new SeededWorldRandom();
 	}
 	
 }

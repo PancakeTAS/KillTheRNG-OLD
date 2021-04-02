@@ -2,6 +2,9 @@ package de.pfannekuchen.killtherng.utils;
 
 import java.util.Random;
 
+import de.pfannekuchen.killtherng.KillTheRng;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
 /**
  * This Random forces a Seed for all 'Random' Operations and logs them into a file.
  * @author Pancake
@@ -11,7 +14,7 @@ public final class EntityRandom extends Random {
 	public static long currentSeed = 0L;
 	
 	/**
-	 * Set the serialVersionUID to be the same as in {@link Random} so that deserialization is compatibile. 
+	 * Set the serialVersionUID to be the same as in {@link Random} so that Deserialization is compatible. 
 	 * @author Pancake
 	 */
 	private static final long serialVersionUID = 3905348978240129619L;
@@ -39,6 +42,19 @@ public final class EntityRandom extends Random {
 	 */
     private EntityRandom(boolean nullptr) {
     	setSeed(currentSeed);
+    }
+    
+    /**
+     * Idiot Check, in case my disabling didn't work
+     * @author Pancake
+     */
+    @Override
+    protected int next(int bits) {
+    	if (KillTheRng.ISDISABLED) {
+    		System.err.println("\n\nKillTheRng shouldn't have been enabled!\n\n");
+    		FMLCommonHandler.instance().exitJava(-1, true);
+    	}
+    	return super.next(bits);
     }
     
 	// Go into every public method and set the seed before executing the RNG action

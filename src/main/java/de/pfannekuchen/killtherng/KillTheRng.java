@@ -7,6 +7,7 @@ import java.util.Random;
 import de.pfannekuchen.killtherng.utils.EntityRandom;
 import de.pfannekuchen.killtherng.utils.UnseededWorldRandom;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -21,15 +22,31 @@ public class KillTheRng {
 	/** Displays Debug Information @author Pancake */
 	public static final boolean ISDEV = true;
 	
+	/** Is Mod disabled */
+	public static boolean ISDISABLED = false;
+	
 	/**
 	 * 
 	 * Do Stuff as Initialization of the Mod
 	 * 
 	 * @author Pancake
-	 * @param event Init Event given by Forge
+	 * @param event Initialization Event given by Forge
 	 */
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		/* Check if any other TAS Mods are loaded */
+		if (Loader.isModLoaded("lotas")) {
+			System.err.println("\n\nLoTAS detected! Disabling KillTheRng as it is not compatible with LoTAS!\n\n");
+			ISDISABLED = true;
+			Loader.instance().runtimeDisableMod("killtherng");
+			return;
+		} else if (Loader.isModLoaded("tasmod")) {
+			System.err.println("\n\nTASmod detected! Disabling TASmod as it is already packed into TASmod");
+			ISDISABLED = true;
+			Loader.instance().runtimeDisableMod("killtherng");
+			return;
+		}
+		
 		/* Override Math.random() and more */
 		changeField("java.lang.Math$RandomNumberGeneratorHolder", "randomNumberGenerator", new EntityRandom(), true);
 		changeField("net.minecraft.inventory.InventoryHelper", "RANDOM", new EntityRandom(), true);

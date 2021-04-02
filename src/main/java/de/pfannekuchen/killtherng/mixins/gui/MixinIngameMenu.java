@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import de.pfannekuchen.killtherng.KillTheRng;
 import de.pfannekuchen.killtherng.utils.EntityRandom;
 import de.pfannekuchen.killtherng.utils.ItemRandom;
 import de.pfannekuchen.killtherng.utils.SeededWorldRandom;
@@ -40,6 +41,8 @@ public abstract class MixinIngameMenu extends GuiScreen {
 	 */
 	@Inject(at = @At("RETURN"), method = "drawScreen")
 	public void drawMore(CallbackInfo ci) {
+		if (KillTheRng.ISDISABLED) return;
+		
 		drawString(mc.fontRenderer, "[TAB] to navigate, [DEL] to clear a seed.", 1, height - 10, 0xFFFFFF);
 		
 		// Draw Seeds
@@ -55,6 +58,7 @@ public abstract class MixinIngameMenu extends GuiScreen {
 	 */
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		if (KillTheRng.ISDISABLED) return;
 		if (keyCode == 15) {
 			selectedIndex--;
 			if (selectedIndex == -1) selectedIndex = 3;
