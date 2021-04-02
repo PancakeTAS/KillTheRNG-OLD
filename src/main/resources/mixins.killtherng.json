@@ -1,0 +1,11 @@
+{
+    "compatibilityLevel": "JAVA_8",
+    "package": "de.pfannekuchen.killtherng.mixins",
+    "mixins": [
+    	"redirect.RedirectEntityRandom",
+    	"redirect.RedirectEntityLivingRandom",
+    	"redirect.RedirectEntityLivingBaseRandom"
+    ],
+    "client": [],
+    "server": []
+}

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "killtherng",
+  "name": "KillTheRng",
+  "description": "Remove all luck aspects of Minecraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Pfannekuchen", "ScribbleLP"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
