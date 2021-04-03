@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
 
 /**
  * This is the Mod for the Forge Loader
@@ -49,12 +50,12 @@ public class KillTheRng {
 		
 		/* Override Math.random() and more */
 		changeField("java.lang.Math$RandomNumberGeneratorHolder", "randomNumberGenerator", new EntityRandom(), true);
-		changeField("net.minecraft.inventory.InventoryHelper", "RANDOM", new EntityRandom(), true);
-		changeField("net.minecraft.tileentity.TileEntityDispenser", "RNG", new UnseededWorldRandom(), true);
-		changeField("net.minecraft.util.math.MathHelper", "RANDOM", new EntityRandom(), true);
-		changeField("net.minecraft.tileentity.TileEntityEnchantmentTable", "rand", new UnseededWorldRandom(), true);
-		changeField("net.minecraft.util.datafix.fixes.ZombieProfToType", "RANDOM", new EntityRandom(), true);
-		changeField("net.minecraft.item.Item", "itemRand", new EntityRandom(), false);
+		changeField("net.minecraft.inventory.InventoryHelper", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RANDOM" : "field_180177_a", new EntityRandom(), true);
+		changeField("net.minecraft.tileentity.TileEntityDispenser", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RNG" : "field_174913_f", new UnseededWorldRandom(), true);
+		changeField("net.minecraft.util.math.MathHelper", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RANDOM" : "field_188211_c", new EntityRandom(), true);
+		changeField("net.minecraft.tileentity.TileEntityEnchantmentTable", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "rand" : "field_145923_r", new UnseededWorldRandom(), true);
+		changeField("net.minecraft.util.datafix.fixes.ZombieProfToType", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RANDOM" : "field_190049_a", new EntityRandom(), true);
+		changeField("net.minecraft.item.Item", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "itemRand" : "field_77697_d", new EntityRandom(), false);
 	}
 	
 	public static void changeField(String clazz, String name, Random rng, boolean isFinal) {
