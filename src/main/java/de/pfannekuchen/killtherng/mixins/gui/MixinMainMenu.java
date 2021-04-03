@@ -10,17 +10,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import de.pfannekuchen.killtherng.KillTheRng;
 import de.pfannekuchen.killtherng.utils.EntityRandom;
 import de.pfannekuchen.killtherng.utils.ItemRandom;
-import de.pfannekuchen.killtherng.utils.SeededWorldRandom;
-import de.pfannekuchen.killtherng.utils.UnseededWorldRandom;
-import net.minecraft.client.gui.GuiIngameMenu;
+import de.pfannekuchen.killtherng.utils.WorldRandom;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 
 /**
  * This adds the seeds to the IngameMenu and makes a simple way to edit it.
  * @author Pancake
  */
-@Mixin(GuiIngameMenu.class)
-public abstract class MixinIngameMenu extends GuiScreen {
+@Mixin(GuiMainMenu.class)
+public abstract class MixinMainMenu extends GuiScreen {
 
 	private int selectedIndex = 0;
 	private String genSeed = "";
@@ -43,13 +42,12 @@ public abstract class MixinIngameMenu extends GuiScreen {
 	public void drawMore(CallbackInfo ci) {
 		if (KillTheRng.ISDISABLED) return;
 		
-		drawString(mc.fontRenderer, "[TAB] to navigate, [DEL] to clear a seed.", 1, height - 10, 0xFFFFFF);
+		drawString(mc.fontRenderer, "[TAB] to navigate, [DEL] to clear a seed.", 1, 2, 0xFFFFFF);
 		
 		// Draw Seeds
-		drawString(mc.fontRenderer, "Entity Seed: " + (selectedIndex == 0 ? "> " : "") + EntityRandom.currentSeed + ((selectedIndex == 0 && (blinkCursor % 20 < 10)) ? "_" : ""), 1, height - 24, 0xFFFFFF);
-		drawString(mc.fontRenderer, "Item Seed: " + (selectedIndex == 1 ? "> " : "") + ItemRandom.currentSeed + ((selectedIndex == 1 && (blinkCursor % 20 < 10)) ? "_" : ""), 1, height - 35, 0xFFFFFF);
-		drawString(mc.fontRenderer, "World Seed: " + (selectedIndex == 2 ? "> " : "") + UnseededWorldRandom.currentSeed + ((selectedIndex == 2 && (blinkCursor % 20 < 10)) ? "_" : ""), 1, height - 46, 0xFFFFFF);
-		drawString(mc.fontRenderer, "World Generation Seed: " + (selectedIndex == 3 ? "> " : "") + genSeed + ((selectedIndex == 3 && (blinkCursor % 20 < 10)) ? "_" : ""), 1, height - 57, 0xFFFFFF);
+		drawString(mc.fontRenderer, "Entity Seed: " + (selectedIndex == 0 ? "> " : "") + EntityRandom.currentSeed + ((selectedIndex == 0 && (blinkCursor % 20 < 10)) ? "_" : ""), 1, 14, 0xFFFFFF);
+		drawString(mc.fontRenderer, "Item Seed: " + (selectedIndex == 1 ? "> " : "") + ItemRandom.currentSeed + ((selectedIndex == 1 && (blinkCursor % 20 < 10)) ? "_" : ""), 1, 25, 0xFFFFFF);
+		drawString(mc.fontRenderer, "World Seed: " + (selectedIndex == 2 ? "> " : "") + genSeed + ((selectedIndex == 2 && (blinkCursor % 20 < 10)) ? "_" : ""), 1, 36, 0xFFFFFF);
 	}
 	
 	/**
@@ -60,9 +58,8 @@ public abstract class MixinIngameMenu extends GuiScreen {
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if (KillTheRng.ISDISABLED) return;
 		if (keyCode == 15) {
-			selectedIndex--;
-			if (selectedIndex == -1) selectedIndex = 3;
-			
+			selectedIndex++;
+			if (selectedIndex == 3) selectedIndex = 0;
 			switch (selectedIndex) {
 			case 0:
 				currentSeed = EntityRandom.currentSeed + "";
@@ -71,9 +68,6 @@ public abstract class MixinIngameMenu extends GuiScreen {
 				currentSeed = ItemRandom.currentSeed + "";
 				break;
 			case 2:
-				currentSeed = UnseededWorldRandom.currentSeed + "";
-				break;
-			case 3:
 				currentSeed = genSeed;
 				break;
 			}
@@ -89,11 +83,8 @@ public abstract class MixinIngameMenu extends GuiScreen {
 				ItemRandom.currentSeed = Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed);
 				break;
 			case 2:
-				UnseededWorldRandom.currentSeed = Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed);
-				break;
-			case 3:
 				genSeed = currentSeed;
-				SeededWorldRandom.updateSeed(Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed));
+				WorldRandom.updateSeed(Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed));
 				break;
 			}
 			
@@ -107,11 +98,8 @@ public abstract class MixinIngameMenu extends GuiScreen {
 				ItemRandom.currentSeed = 0;
 				break;
 			case 2:
-				UnseededWorldRandom.currentSeed = 0;
-				break;
-			case 3:
 				genSeed = currentSeed;
-				SeededWorldRandom.updateSeed(0);
+				WorldRandom.updateSeed(0);
 				break;
 			}
 		} else if (Character.isDigit(typedChar) && (currentSeed.length() + 1) <= 18) {
@@ -125,11 +113,8 @@ public abstract class MixinIngameMenu extends GuiScreen {
 				ItemRandom.currentSeed = Long.parseLong(currentSeed);
 				break;
 			case 2:
-				UnseededWorldRandom.currentSeed = Long.parseLong(currentSeed);
-				break;
-			case 3:
 				genSeed = currentSeed;
-				SeededWorldRandom.updateSeed(Long.parseLong(currentSeed));
+				WorldRandom.updateSeed(Long.parseLong(currentSeed));
 				break;
 			}
 		} 

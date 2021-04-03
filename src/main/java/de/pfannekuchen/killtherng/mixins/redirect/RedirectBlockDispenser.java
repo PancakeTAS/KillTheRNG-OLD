@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import de.pfannekuchen.killtherng.KillTheRng;
-import de.pfannekuchen.killtherng.utils.UnseededWorldRandom;
+import de.pfannekuchen.killtherng.utils.WorldRandom;
 import net.minecraft.block.BlockDispenser;
 
 @Mixin(BlockDispenser.class)
@@ -20,7 +20,7 @@ public class RedirectBlockDispenser {
 	
 	@Inject(at = @At("RETURN"), method = "<init>")
 	public void hackRandom(CallbackInfo ci) {
-		if (!KillTheRng.ISDISABLED) rand = new UnseededWorldRandom();
+		if (!KillTheRng.ISDISABLED) rand = new WorldRandom();
 	}
 	
 }

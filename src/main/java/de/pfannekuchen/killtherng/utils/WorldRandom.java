@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
  * This Random forces a Seed for all 'Random' Operations and logs them into a file.
  * @author Pancake
  */
-public final class SeededWorldRandom extends Random {
+public final class WorldRandom extends Random {
 	
 	/**
 	 * Set the serialVersionUID to be the same as in {@link Random} so that Deserialization is Compatible. 
@@ -20,13 +20,14 @@ public final class SeededWorldRandom extends Random {
 
 	private static volatile ArrayList<Random> instances = new ArrayList<>();
 	
-	public SeededWorldRandom(long seed) {
+	public WorldRandom(long seed) {
 		super(seed);
 		instances.add(this);
 	}
 	
-	public SeededWorldRandom() {
-		this(8682522807148012L);
+	public WorldRandom() {
+		super();
+		instances.add(this);
 	}
 	
     /**

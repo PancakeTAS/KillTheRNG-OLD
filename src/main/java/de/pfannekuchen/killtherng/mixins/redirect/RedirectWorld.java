@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import de.pfannekuchen.killtherng.KillTheRng;
-import de.pfannekuchen.killtherng.utils.SeededWorldRandom;
+import de.pfannekuchen.killtherng.utils.WorldRandom;
 import net.minecraft.world.World;
 
 @Mixin(World.class)
@@ -19,10 +19,9 @@ public class RedirectWorld {
 	@Shadow @Mutable
 	public Random rand;
 	
-	
 	@Inject(at = @At("RETURN"), method = "<init>")
 	public void redirectRandom(CallbackInfo ci) {
-		if (!KillTheRng.ISDISABLED) rand = new SeededWorldRandom();
+		if (!KillTheRng.ISDISABLED) rand = new WorldRandom();
 	}
 	
 }

@@ -5,13 +5,14 @@ import java.lang.reflect.Modifier;
 import java.util.Random;
 
 import de.pfannekuchen.killtherng.utils.EntityRandom;
-import de.pfannekuchen.killtherng.utils.UnseededWorldRandom;
+import de.pfannekuchen.killtherng.utils.WorldRandom;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * This is the Mod for the Forge Loader
@@ -19,12 +20,9 @@ import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
  */
 @Mod(canBeDeactivated = false, modid = "killtherng", name = "KillTheRng", clientSideOnly = true, version = "1.0.0")
 public class KillTheRng {
-
-	/** Displays Debug Information @author Pancake */
-	public static final boolean ISDEV = true;
 	
 	/** Is Mod disabled */
-	public static boolean ISDISABLED = false;
+	public static boolean ISDISABLED;
 	
 	/**
 	 * 
@@ -42,18 +40,22 @@ public class KillTheRng {
 			Loader.instance().runtimeDisableMod("killtherng");
 			return;
 		} else if (Loader.isModLoaded("tasmod")) {
-			System.err.println("\n\nTASmod detected! Disabling TASmod as it is already packed into TASmod");
+			System.err.println("\n\nTASmod detected! Disabling KillTheRng as it is already packed into TASmod\n\n");
 			ISDISABLED = true;
 			Loader.instance().runtimeDisableMod("killtherng");
 			return;
+		} else if (FMLLaunchHandler.side() == Side.SERVER) {
+			System.err.println("\n\nServer detected! Disabling KillTheRng as it is not server compatible\n\n");
+			ISDISABLED = true;
+			Loader.instance().runtimeDisableMod("killtherng");
 		}
 		
 		/* Override Math.random() and more */
 		changeField("java.lang.Math$RandomNumberGeneratorHolder", "randomNumberGenerator", new EntityRandom(), true);
 		changeField("net.minecraft.inventory.InventoryHelper", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RANDOM" : "field_180177_a", new EntityRandom(), true);
-		changeField("net.minecraft.tileentity.TileEntityDispenser", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RNG" : "field_174913_f", new UnseededWorldRandom(), true);
+		changeField("net.minecraft.tileentity.TileEntityDispenser", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RNG" : "field_174913_f", new WorldRandom(), true);
 		changeField("net.minecraft.util.math.MathHelper", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RANDOM" : "field_188211_c", new EntityRandom(), true);
-		changeField("net.minecraft.tileentity.TileEntityEnchantmentTable", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "rand" : "field_145923_r", new UnseededWorldRandom(), true);
+		changeField("net.minecraft.tileentity.TileEntityEnchantmentTable", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "rand" : "field_145923_r", new WorldRandom(), true);
 		changeField("net.minecraft.util.datafix.fixes.ZombieProfToType", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "RANDOM" : "field_190049_a", new EntityRandom(), true);
 		changeField("net.minecraft.item.Item", FMLLaunchHandler.isDeobfuscatedEnvironment() ? "itemRand" : "field_77697_d", new EntityRandom(), false);
 	}
