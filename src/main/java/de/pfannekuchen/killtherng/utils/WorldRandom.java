@@ -2,6 +2,7 @@ package de.pfannekuchen.killtherng.utils;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.pfannekuchen.killtherng.KillTheRng;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -12,6 +13,16 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
  */
 public final class WorldRandom extends Random {
 	
+	/**
+	 * Stuff needed to calculate the next seed
+	 * @author Pancake
+	 */
+    private static final long multiplier = 0x5DEECE66DL;
+    private static final long addend = 0xBL;
+    private static final long mask = (1L << 48) - 1;
+	
+    public static volatile AtomicBoolean update = new AtomicBoolean(false);
+    
 	/**
 	 * Set the serialVersionUID to be the same as in {@link Random} so that Deserialization is Compatible. 
 	 * @author Pancake
@@ -36,6 +47,10 @@ public final class WorldRandom extends Random {
      */
     @Override
     protected int next(int bits) {
+    	if (update.get()) {
+    		update.set(false);
+    		updateSeed(((nextLong() * multiplier + addend) & mask)); // Set the seed to the mathematically next seed.
+    	}
     	if (KillTheRng.ISDISABLED) {
     		System.err.println("\n\nKillTheRng shouldn't have been enabled!\n\n");
     		FMLCommonHandler.instance().exitJava(-1, true);

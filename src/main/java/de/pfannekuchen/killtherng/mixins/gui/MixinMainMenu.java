@@ -77,10 +77,10 @@ public abstract class MixinMainMenu extends GuiScreen {
 			
 			switch (selectedIndex) {
 			case 0:
-				EntityRandom.currentSeed = Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed);
+				EntityRandom.currentSeed.set(Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed));
 				break;
 			case 1:
-				ItemRandom.currentSeed = Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed);
+				ItemRandom.currentSeed.set(Long.parseLong(currentSeed.isEmpty() ? "0" : currentSeed));
 				break;
 			case 2:
 				genSeed = currentSeed;
@@ -92,10 +92,10 @@ public abstract class MixinMainMenu extends GuiScreen {
 			currentSeed = "";
 			switch (selectedIndex) {
 			case 0:
-				EntityRandom.currentSeed = 0;
+				EntityRandom.currentSeed.set(0);
 				break;
 			case 1:
-				ItemRandom.currentSeed = 0;
+				ItemRandom.currentSeed.set(0);
 				break;
 			case 2:
 				genSeed = currentSeed;
@@ -107,10 +107,10 @@ public abstract class MixinMainMenu extends GuiScreen {
 			
 			switch (selectedIndex) {
 			case 0:
-				EntityRandom.currentSeed = Long.parseLong(currentSeed);
+				EntityRandom.currentSeed.set(Long.parseLong(currentSeed));
 				break;
 			case 1:
-				ItemRandom.currentSeed = Long.parseLong(currentSeed);
+				ItemRandom.currentSeed.set(Long.parseLong(currentSeed));
 				break;
 			case 2:
 				genSeed = currentSeed;

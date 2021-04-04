@@ -6,6 +6,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import de.pfannekuchen.killtherng.utils.EntityRandom;
+import de.pfannekuchen.killtherng.utils.ItemRandom;
+import de.pfannekuchen.killtherng.utils.WorldRandom;
 import net.minecraft.client.Minecraft;
 
 /**
@@ -29,7 +31,9 @@ public abstract class MixinMinecraft {
      */
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;dispatchKeypresses()V"), method = "runTickKeyboard")
 	public void injectRunTickKeyboard(CallbackInfo ci) {
-		EntityRandom.currentSeed = ((EntityRandom.currentSeed * multiplier + addend) & mask); // Set the seed to the mathematically next seed.
+		WorldRandom.update.set(true);
+		EntityRandom.currentSeed.set((EntityRandom.currentSeed.get() * multiplier + addend) & mask);
+		ItemRandom.currentSeed.set((ItemRandom.currentSeed.get() * multiplier + addend) & mask);
 	}
 	
 }

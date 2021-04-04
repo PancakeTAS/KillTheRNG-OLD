@@ -1,6 +1,7 @@
 package de.pfannekuchen.killtherng.utils;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
 import de.pfannekuchen.killtherng.KillTheRng;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -11,38 +12,16 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
  */
 public final class EntityRandom extends Random {
 	
-	public static long currentSeed = 0L;
-	
+	/**
+	 * Seed used for creating new Random instances
+	 */
+	public static AtomicLong currentSeed = new AtomicLong(0L);
+
 	/**
 	 * Set the serialVersionUID to be the same as in {@link Random} so that Deserialization is compatible. 
 	 * @author Pancake
 	 */
 	private static final long serialVersionUID = 3905348978240129619L;
-	
-	/**
-	 * Replace all constructors to make redirecting easier.
-	 * @author Pancake
-	 */
-	public EntityRandom() {
-		this(false);
-    }
-	
-	/**
-	 * Replace all constructors to make redirecting easier.
-	 * @author Pancake
-	 */
-    public EntityRandom(final long seed) {
-    	this(false);
-    }
-	
-	/**
-	 * Set the seed to the seed given by the player.
-	 * @author Pancake
-	 * @param seed Given seed for the Random Number Generator (ignored)
-	 */
-    private EntityRandom(boolean nullptr) {
-    	setSeed(currentSeed);
-    }
     
     /**
      * Idiot Check, in case my disabling didn't work
@@ -61,50 +40,42 @@ public final class EntityRandom extends Random {
 	
 	@Override
 	public boolean nextBoolean() {
-		setSeed(currentSeed);
-		return super.nextBoolean();
+		return new Random(currentSeed.get()).nextBoolean();
 	}
 	
 	@Override
 	public double nextDouble() {
-		setSeed(currentSeed);
-		return super.nextDouble();
+		return new Random(currentSeed.get()).nextDouble();
 	}
 	
 	@Override
 	public int nextInt() {
-		setSeed(currentSeed);
-		return super.nextInt();
+		return new Random(currentSeed.get()).nextInt();
 	}
 	
 	@Override
 	public int nextInt(int bound) {
-		setSeed(currentSeed);
-		return super.nextInt(bound);
+		return new Random(currentSeed.get()).nextInt(bound);
 	}
 	
 	@Override
 	public float nextFloat() {
-		setSeed(currentSeed);
-		return super.nextFloat();
+		return new Random(currentSeed.get()).nextFloat();
 	}
 	
 	@Override
 	public void nextBytes(byte[] bytes) {
-		setSeed(currentSeed);
-		super.nextBytes(bytes);
+		new Random(currentSeed.get()).nextBytes(bytes);
 	}
 	
 	@Override
-	public synchronized double nextGaussian() {
-		setSeed(currentSeed);
-		return super.nextGaussian();
+	public double nextGaussian() {
+		return new Random(currentSeed.get()).nextGaussian();
 	}
 	
 	@Override
 	public long nextLong() {
-		setSeed(currentSeed);
-		return super.nextLong();
+		return new Random(currentSeed.get()).nextLong();
 	}
 	
 }
