@@ -40,7 +40,10 @@ public abstract class MixinMainMenu extends GuiScreen {
 	 */
 	@Inject(at = @At("RETURN"), method = "drawScreen")
 	public void drawMore(CallbackInfo ci) {
-		if (KillTheRng.ISDISABLED) return;
+		if (KillTheRng.ISDISABLED) {
+			drawString(mc.fontRenderer, "\u00A7cKillTheRng is disabled!", 1, 1, 0xFFFFFF);
+			return;
+		}
 		
 		drawString(mc.fontRenderer, "[TAB] to navigate, [DEL] to clear a seed.", 1, 2, 0xFFFFFF);
 		
