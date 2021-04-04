@@ -1,7 +1,7 @@
 ﻿# KillTheRng
 ### Kill all aspects of rng in Minecraft
 
-This Mod is a part of the TASmod.
+This Mod is a part of the TASmod. Even though this is a standalone Mod, it is not recommended as a TAS mod
 
 ## Bugs / Feature Requests
 
